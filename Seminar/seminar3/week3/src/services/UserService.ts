@@ -1,22 +1,26 @@
+import { PostBaseResponseDto } from "../interfaces/common/PostBaseResponseDto";
 import { UserCreateDto } from "../interfaces/user/UserCreateDto";
 import { UserResponseDto } from "../interfaces/user/UserResponseDto";
-import { userUpdateDto } from "../interfaces/user/UserUpdateDto";
+import { UserUpdateDto } from "../interfaces/user/UserUpdateDto";
 import User from "../models/User";
 
-const createUser = async (userCreateDto: UserCreateDto) => {
+const createUser = async (userCreateDto: UserCreateDto): Promise<PostBaseResponseDto> => {
     try {
         const user = new User({
             name: userCreateDto.name,
             phone: userCreateDto.phone,
             email: userCreateDto.email,
             age: userCreateDto.age,
-            school: userCreateDto.school
+            school: {
+                name: userCreateDto.school?.name,
+                major: userCreateDto.school?.major
+            }
         });
 
         await user.save();
 
         const data = {
-            _id: user._id
+            _id: user.id
         };
 
         return data;
@@ -26,26 +30,23 @@ const createUser = async (userCreateDto: UserCreateDto) => {
     }
 }
 
-const updateUser = async (userId: string, userUpdateDto: userUpdateDto) => {
+const updateUser = async (userId: string, userUpdateDto: UserUpdateDto) => {
     try {
-        const updatedUser = {
-            name: userUpdateDto.name,
-            phone: userUpdateDto.phone,
-            email: userUpdateDto.email,
-            age: userUpdateDto.age,
-            school: userUpdateDto.school
-        }
-
-       await User.findByIdAndUpdate(userId, updatedUser);
+        // findByIdAndUpdate
+        await User.findByIdAndUpdate(userId, userUpdateDto);
     } catch (error) {
         console.log(error);
         throw error;
     }
 }
 
-const findUserById = async (userId: string) => {
-    try {   
-        const user: UserResponseDto | null = await User.findById(userId);
+const findUserById = async (userId: string): Promise<UserResponseDto | null> => {
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return null;
+        }
 
         return user;
     } catch (error) {
@@ -54,7 +55,7 @@ const findUserById = async (userId: string) => {
     }
 }
 
-const deleteUser = async (userId: string) => {
+const delteUser = async (userId: string): Promise<void> => {
     try {
         await User.findByIdAndDelete(userId);
     } catch (error) {
@@ -62,9 +63,10 @@ const deleteUser = async (userId: string) => {
         throw error;
     }
 }
+
 export default {
     createUser,
     updateUser,
     findUserById,
-    deleteUser
+    delteUser
 }

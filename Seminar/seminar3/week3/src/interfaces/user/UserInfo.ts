@@ -4,6 +4,6 @@ export interface UserInfo {
     name: string;
     phone: string;
     email: string;
-    age: string;
-    school: SchoolInfo;
+    age: number;
+    school: SchoolInfo; 
 }

@@ -6,7 +6,7 @@ const connectDB = async () => {
     await mongoose.connect(config.mongoURI);
 
     mongoose.set('autoCreate', true);
-
+    
     console.log("Mongoose Connected ...");
   } catch (err: any) {
     console.error(err.message);

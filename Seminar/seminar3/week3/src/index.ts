@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
+import config from "./config";
 const app = express();
 import connectDB from "./loaders/db";
 import routes from './routes';
@@ -17,21 +18,19 @@ interface ErrorType {
   status: number;
 }
 
+// 모든 에러
 app.use(function (err: ErrorType, req: Request, res: Response, next: NextFunction) {
 
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "production" ? err : {};
 
-  console.log(err)
   // render the error page
   res.status(err.status || 500);
   res.render("error");
-
-  next();
 });
 
 app
-  .listen(process.env.PORT, () => {
+  .listen(config.port, () => {
     console.log(`
     ################################################
           🛡️  Server listening on port 🛡️
