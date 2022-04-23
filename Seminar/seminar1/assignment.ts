@@ -38,23 +38,35 @@ const dinner: Dinner = {
     },
     organize (array: Member[]) {
         this.shuffle(array);
-        let yb: boolean = false;
-        let ob: boolean = false;
-        const dinnerMember = array.map((obj: Member) => {
-            if (obj.group === 'yb') {
-                if (!yb) {
-                    yb = true;
-                    return obj.name;
-                }
-            } else {
-                if (!ob) {
-                    ob = true;
-                    return obj.name;
-                }
-            }
-            return;
-        });
-        console.log(`오늘의 저녁 식사 멤버는 ${dinnerMember[0]}, ${dinnerMember[1]}`);
+        const ob: Member | undefined = array.find((array) => array.group === "ob");
+        const yb: Member | undefined = array.find((array) => array.group === "yb");
+
+        // 타입가드
+        if (ob && yb) {
+            const dinnerMember: String[] = [ob.name, yb.name];
+            console.log(
+                `오늘의 저녁 식사 멤버는 ${dinnerMember[0]}, ${dinnerMember[1]}`
+            );
+        } else {
+            console.log("undefined가 나왔겠지요");
+        }
+        // let yb: boolean = false;
+        // let ob: boolean = false;
+        // const dinnerMember = array.map((obj: Member) => {
+        //     if (obj.group === 'yb') {
+        //         if (!yb) {
+        //             yb = true;
+        //             return obj.name;
+        //         }
+        //     } else {
+        //         if (!ob) {
+        //             ob = true;
+        //             return obj.name;
+        //         }
+        //     }
+        //     return;
+        // });
+        // console.log(`오늘의 저녁 식사 멤버는 ${dinnerMember[0]}, ${dinnerMember[1]}`);
     }
 };
 

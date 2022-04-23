@@ -9,10 +9,12 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "^17.0.23",
     "nodemon": "^2.0.15"
   },
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "mongoose": "^6.3.1"
   }
 }
