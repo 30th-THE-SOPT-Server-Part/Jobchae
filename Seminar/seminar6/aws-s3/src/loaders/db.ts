@@ -1,0 +1,32 @@
+import mongoose from "mongoose";
+import config from "../config"; 
+import File from "../models/File";
+import Movie from "../models/Movie";
+import Review from "../models/Review";
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(config.mongoURI);
+
+    mongoose.set('autoCreate', true);
+    
+    console.log("Mongoose Connected ...");
+
+    Movie.createCollection().then(function (collection) {
+      console.log("Movie collection created");
+    });
+
+    Review.createCollection().then(function (collection) {
+      console.log("Review Collection Created");
+    });
+
+    File.createCollection().then(function (collection) {
+      console.log("File Collection Created");
+    });
+  } catch (err: any) {
+    console.error(err.message);
+    process.exit(1);
+  }
+};
+
+export default connectDB;
